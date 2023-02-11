@@ -23,7 +23,7 @@ def check_quality(df):
     print(df.nunique())
 
 # Crear la columna 'periodo_dia'
-def categorizar_periodo_dia(row):
+def categorized_days_periods(row):
     """ filter to classify the period of day
     Args:
         row (Serie): DataFrame row
