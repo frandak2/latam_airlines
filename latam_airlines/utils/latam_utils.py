@@ -3,7 +3,21 @@ from joblib import dump
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
+
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
+from xgboost import XGBClassifier
+
+from sklearn.metrics import f1_score,precision_score,recall_score,accuracy_score, confusion_matrix
+
 import latam_airlines.utils.paths as path
+rs = {'random_state': 42}
 
 def check_quality(df):
     """Check the quality from data, count the NA, DUPLICATED and unique.
@@ -50,6 +64,72 @@ def rm_outliers(df, col):
     df[col].clip(p_05, p_95, inplace=True)
     return df
 
+# Classification - Model Pipeline
+def modelPipeline(X_train, X_test, y_train, y_test):
+
+    log_reg = LogisticRegression(**rs,solver='saga', max_iter=200)
+    mlp = MLPClassifier(max_iter=500, **rs)
+    dt = DecisionTreeClassifier(**rs)
+    rf = RandomForestClassifier(**rs)
+    xgb = XGBClassifier(**rs, verbosity=0)
+
+    # Crear un objeto ColumnTransformer
+    # Crear una pipeline que incluya el ColumnTransformer
+    # Crear un objeto ColumnTransformer
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', StandardScaler(with_mean=False), ['DIA', 'MES', 'HORA', 'MIN','Vlo_change', 'Emp_change','temporada_alta']),
+            ('cat-nominal', OneHotEncoder(), ['periodo_dia','DIANOM', 'MESNOM','Des-I', 'TIPOVUELO', 'OPERA'])
+        ],
+        )
+
+    clfs = [
+            ('Logistic Regression', log_reg), 
+            ('MLP', mlp), 
+            ('Decision Tree', dt), 
+            ('Random Forest', rf), 
+            ('XGBoost', xgb)
+            ]
+
+    pipelines = []
+
+    scores_df = pd.DataFrame(columns=['Model', 'F1_Score', 'Precision', 'Recall', 'Accuracy'])
+
+
+    for clf_name, clf in clfs:
+
+        pipeline = Pipeline(steps=[
+                                   ('preprocessor', preprocessor),
+                                   ('classifier', clf)
+                                   ]
+                            )
+        pipeline.fit(X_train, y_train)
+
+
+        y_pred = pipeline.predict(X_test)
+        # F1-Score
+        fscore = f1_score(y_test, y_pred,average='weighted')
+        # Precision
+        pres = precision_score(y_test, y_pred,average='weighted')
+        # Recall
+        rcall = recall_score(y_test, y_pred,average='weighted')
+        # Accuracy
+        accu = accuracy_score(y_test, y_pred)
+
+
+        pipelines.append(pipeline)
+
+        scores_df = scores_df.append({
+                                    'Model' : clf_name, 
+                                    'F1_Score' : fscore,
+                                    'Precision' : pres,
+                                    'Recall' : rcall,
+                                    'Accuracy' : accu
+                                    }, 
+                                    ignore_index=True)
+        
+    return pipelines, scores_df
+
 def update_model(model: Pipeline) -> None:
     """update or create model pkl version.
     Args:
@@ -58,7 +138,7 @@ def update_model(model: Pipeline) -> None:
     dump(model, path.models_dir('model.pkl'))
 
 
-def save_simple_metrics_report(train_score: float, test_score: float, validation_score: float, mse: float, mae: float, mape: float, model: Pipeline) -> None:
+def save_simple_metrics_report(train_score: float, test_score: float, report, model: Pipeline) -> None:
     """Create simple report with metrics of performance from Modelo or KPI's and models parameters.
     Args:
         train_score(float):score train
@@ -79,16 +159,14 @@ def save_simple_metrics_report(train_score: float, test_score: float, validation
         report_file.write(f'### Train Score: {train_score}'+'\n')
         report_file.write(f'### Test Score: {test_score}'+'\n')
         report_file.write(f'### Validation Score: {validation_score}'+'\n')
-        report_file.write(f'### Mean Squared Error: {mse}'+'\n')
-        report_file.write(f'### Mean Absolute Error: {mae}'+'\n')
-        report_file.write(f'### Mean Absolute Percentage Error: {mape}'+'\n')
+        report_file.write(f'### Reporte:{report}'+'\n')
 
-# def get_model_performance_test_set(y_real: pd.Series, y_pred: pd.Series) ->None:
-#     fig, ax = plt.subplots()
-#     fig.set_figheight(8)
-#     fig.set_figwidth(8)
-#     sns.regplot(x=y_pred, y=y_real, ax = ax)
-#     ax.set_xlabel('Predicted worldwide gross')
-#     ax.set_ylabel('Real worldwide gross')
-#     ax.set_title('Behavior of model prediction')
-#     fig.savefig(path.reports_figures_dir('prediction_behavior.png'))
+def get_model_performance_test_set(y_real: pd.Series, y_pred: pd.Series) ->None:
+    fig, ax = plt.subplots()
+    fig.set_figheight(8)
+    fig.set_figwidth(8)
+    sns.regplot(x=y_pred, y=y_real, ax = ax)
+    ax.set_xlabel('Predicted worldwide gross')
+    ax.set_ylabel('Real worldwide gross')
+    ax.set_title('Behavior of model prediction')
+    fig.savefig(path.reports_figures_dir('prediction_behavior.png'))
