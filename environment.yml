@@ -20,4 +20,3 @@ dependencies:
   - pyprojroot
   - python=3.10
   - seaborn
-  
