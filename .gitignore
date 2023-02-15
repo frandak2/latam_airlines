@@ -65,7 +65,6 @@ target/
 #/data/
 *.pkl
 *.csv
-*.txt
 *.png
 
 # ipynb checkpoints
