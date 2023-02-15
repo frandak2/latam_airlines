@@ -44,6 +44,7 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+.pytest_cache
 
 # Translations
 *.mo
@@ -63,6 +64,10 @@ target/
 
 # exclude data from source control by default
 #/data/
+*.pkl
+*.csv
+*.png
+
 
 # ipynb checkpoints
 .ipynb_checkpoints

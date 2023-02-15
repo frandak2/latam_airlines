@@ -1,0 +1,31 @@
+# Model Pipeline Description
+### preprocessor:ColumnTransformer(transformers=[('num', StandardScaler(with_mean=False),
+                                 ['DIA', 'MES', 'HORA', 'MIN', 'Vlo_change',
+                                  'Emp_change', 'temporada_alta']),
+                                ('cat-nominal', OneHotEncoder(),
+                                 ['periodo_dia', 'DIANOM', 'MESNOM', 'Des_I',
+                                  'TIPOVUELO', 'OPERA'])])
+### model:XGBClassifier(base_score=None, booster=None, callbacks=None,
+              colsample_bylevel=None, colsample_bynode=None,
+              colsample_bytree=None, early_stopping_rounds=None,
+              enable_categorical=False, eval_metric=None, feature_types=None,
+              gamma=None, gpu_id=None, grow_policy=None, importance_type=None,
+              interaction_constraints=None, learning_rate=None, max_bin=None,
+              max_cat_threshold=None, max_cat_to_onehot=None,
+              max_delta_step=None, max_depth=None, max_leaves=None,
+              min_child_weight=None, missing=nan, monotone_constraints=None,
+              n_estimators=100, n_jobs=None, num_parallel_tree=None,
+              predictor=None, random_state=42, ...)
+### Train Score: 0.8463062345690371
+### Test Score: 0.824242135398436
+### Validation Score: 0.8320778712580709
+### Reporte:
+               precision    recall  f1-score   support
+
+           0       0.84      0.98      0.91     16759
+           1       0.63      0.17      0.27      3685
+
+    accuracy                           0.83     20444
+   macro avg       0.73      0.57      0.59     20444
+weighted avg       0.80      0.83      0.79     20444
+
