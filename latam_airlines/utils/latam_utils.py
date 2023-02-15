@@ -1,5 +1,5 @@
 from sklearn.pipeline import Pipeline
-from joblib import dump
+from joblib import dump, load
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
@@ -130,26 +130,30 @@ def modelPipeline(X_train, X_test, y_train, y_test):
         
     return pipelines, scores_df
 
-def update_model(model: Pipeline) -> None:
+def update_model(model_name:str, model: Pipeline) -> None:
     """update or create model pkl version.
     Args:
+        model_name(str): name of model
         model(Pipeline): pipeline trained
     """
-    dump(model, path.models_dir('model.pkl'))
+    dump(model, path.models_dir(f'{model_name}.pkl'))
+
+def get_model(model_name:str) -> Pipeline:
+    model = load(path.models_dir(f'{model_name}'))
+    return model
 
 
-def save_simple_metrics_report(train_score: float, test_score: float, report, model: Pipeline) -> None:
+def save_simple_metrics_report(name_report:str, train_score: float, test_score: float, validation_score: float, report, model: Pipeline) -> None:
     """Create simple report with metrics of performance from Modelo or KPI's and models parameters.
     Args:
+        name_report(str): name of report
         train_score(float):score train
         test_score(float):score test
         validation_score(float): score val
-        mse(float): RMSE
-        mae(float): MAE
-        mape(float): MAPE
+        report(): Report of clasification
         model(Pipeline): Model parameters
     """
-    with open(path.reports_dir('report.txt'), 'w') as report_file:
+    with open(path.reports_dir(f'{name_report}'+'.txt'), 'w') as report_file:
 
         report_file.write('# Model Pipeline Description'+'\n')
 
@@ -159,14 +163,24 @@ def save_simple_metrics_report(train_score: float, test_score: float, report, mo
         report_file.write(f'### Train Score: {train_score}'+'\n')
         report_file.write(f'### Test Score: {test_score}'+'\n')
         report_file.write(f'### Validation Score: {validation_score}'+'\n')
-        report_file.write(f'### Reporte:{report}'+'\n')
+        report_file.write(f'### Reporte:\n {report}'+'\n')
 
-def get_model_performance_test_set(y_real: pd.Series, y_pred: pd.Series) ->None:
+def get_model_performance_test_set(fig_name: str, y_real: pd.Series, y_pred: pd.Series) ->None:
+    """create a matrix confusion to explored the  model metrics
+
+    Args:
+        fig_name (str): name of gigure
+        y_real (pd.Series): label target real
+        y_pred (pd.Series): label target predicted
+    """
+    cm = confusion_matrix(y_real, y_pred)
     fig, ax = plt.subplots()
     fig.set_figheight(8)
-    fig.set_figwidth(8)
-    sns.regplot(x=y_pred, y=y_real, ax = ax)
-    ax.set_xlabel('Predicted worldwide gross')
-    ax.set_ylabel('Real worldwide gross')
-    ax.set_title('Behavior of model prediction')
-    fig.savefig(path.reports_figures_dir('prediction_behavior.png'))
+    fig.set_figwidth(12)
+    sns.heatmap(cm, annot=True, fmt='g',cmap='PuRd', ax=ax) 
+    ax.set_xlabel('Predicted labels')
+    ax.set_ylabel('True labels')
+    ax.set_title('Confusion Matrix')
+    ax.xaxis.set_ticklabels(['No atraso', 'Atraso'])
+    ax.yaxis.set_ticklabels(['No atraso', 'Atraso'])
+    fig.savefig(path.reports_figures_dir(f'{fig_name}.png'))

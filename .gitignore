@@ -63,6 +63,8 @@ target/
 
 # exclude data from source control by default
 #/data/
+*.pkl
+*.csv
 
 # ipynb checkpoints
 .ipynb_checkpoints
