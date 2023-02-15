@@ -3,7 +3,7 @@
                                  ['DIA', 'MES', 'HORA', 'MIN', 'Vlo_change',
                                   'Emp_change', 'temporada_alta']),
                                 ('cat-nominal', OneHotEncoder(),
-                                 ['periodo_dia', 'DIANOM', 'MESNOM', 'Des-I',
+                                 ['periodo_dia', 'DIANOM', 'MESNOM', 'Des_I',
                                   'TIPOVUELO', 'OPERA'])])
 ### model:XGBClassifier(base_score=None, booster=None, callbacks=None,
               colsample_bylevel=None, colsample_bynode=None,
@@ -16,16 +16,16 @@
               min_child_weight=None, missing=nan, monotone_constraints=None,
               n_estimators=100, n_jobs=None, num_parallel_tree=None,
               predictor=None, random_state=42, ...)
-### Train Score: 0.7856272423073609
-### Test Score: 0.6601454527676538
-### Validation Score: 0.6652553585604657
+### Train Score: 0.7873851343017337
+### Test Score: 0.6634340291352617
+### Validation Score: 0.6630060862662079
 ### Reporte:
                precision    recall  f1-score   support
 
-           0       0.67      0.66      0.67      3814
-           1       0.66      0.67      0.66      3744
+           0       0.67      0.66      0.66      3814
+           1       0.66      0.66      0.66      3744
 
-    accuracy                           0.67      7558
-   macro avg       0.67      0.67      0.67      7558
-weighted avg       0.67      0.67      0.67      7558
+    accuracy                           0.66      7558
+   macro avg       0.66      0.66      0.66      7558
+weighted avg       0.66      0.66      0.66      7558
 

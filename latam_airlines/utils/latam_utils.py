@@ -42,7 +42,7 @@ def categorized_days_periods(row):
     Args:
         row (Serie): DataFrame row
     """
-    hora = row['Fecha-I'].hour
+    hora = row['Fecha_I'].hour
     if hora >= 5 and hora <= 11:
         return 'mañana'
     elif hora >= 12 and hora <= 18:
@@ -79,7 +79,7 @@ def modelPipeline(X_train, X_test, y_train, y_test):
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', StandardScaler(with_mean=False), ['DIA', 'MES', 'HORA', 'MIN','Vlo_change', 'Emp_change','temporada_alta']),
-            ('cat-nominal', OneHotEncoder(), ['periodo_dia','DIANOM', 'MESNOM','Des-I', 'TIPOVUELO', 'OPERA'])
+            ('cat-nominal', OneHotEncoder(), ['periodo_dia','DIANOM', 'MESNOM','Des_I', 'TIPOVUELO', 'OPERA'])
         ],
         )
 

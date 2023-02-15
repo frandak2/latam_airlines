@@ -3,7 +3,7 @@
                                  ['DIA', 'MES', 'HORA', 'MIN', 'Vlo_change',
                                   'Emp_change', 'temporada_alta']),
                                 ('cat-nominal', OneHotEncoder(),
-                                 ['periodo_dia', 'DIANOM', 'MESNOM', 'Des-I',
+                                 ['periodo_dia', 'DIANOM', 'MESNOM', 'Des_I',
                                   'TIPOVUELO', 'OPERA'])])
 ### model:XGBClassifier(base_score=None, booster=None, callbacks=None,
               colsample_bylevel=None, colsample_bynode=None,
