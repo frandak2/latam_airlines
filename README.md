@@ -1,6 +1,6 @@
 # latam_airlines
 
-# el problema
+# El problema
 El problema consiste en predecir la probabilidad de atraso de los vuelos que aterrizan o despegan del aeropuerto de Santiago de Chile (SCL). Para eso les entregamos un dataset usando datos públicos y reales donde cada fila corresponde a un vuelo que aterrizó o despegó de SCL. Para cada vuelo se cuenta con la siguiente información:
 
 Fecha-I : Fecha y hora programada del vuelo.
@@ -62,6 +62,11 @@ Análisis exploratorio de datos (EDA) para entender la distribución de los dato
     - Medir la performance del modelo con métricas relevantes, como la exactitud, AUC-ROC, matriz de confusión, entre otras.
     - Analizar qué variables tienen más impacto en la predicción.
     - Identificar posibles áreas de mejora, como la inclusión de más variables, la modificación de la arquitectura del modelo, entre otras.
+
+6. Crecion de API y Dockerfile
+    - Creacion de main, models y views para desplegar una API REST que me regrese el valor predicho por el modelo
+    - Testear la API
+    - Crear un contenedor de la API usando Docker 
 
 pd: podemos usar solo git para la creacion de ramas y versionamiento, podemos leer este articulo: [A modern branching strategy](https://martinfowler.com/articles/ship-show-ask.html)
 
