@@ -38,37 +38,36 @@ SIGLADES : Nombre ciudad destino.
 5. Evalúa tu modelo. ¿Qué performance tiene? ¿Qué métricas usaste para evaluar esa performance y por qué? ¿Por qué elegiste ese algoritmo en particular? ¿Qué variables son las que más influyen en la predicción? ¿Cómo podrías mejorar la performance? 
 
 # Desarrollo del desafio
-Con esta corta descripcion buscamos dar una idea general de como sera abordado el problema para predecir la probabilidad de atraso de vuelos en el aeropuerto de Santiago de Chile (SCL):
+Con esta breve descripción buscamos dar una idea general de cómo abordaremos el problema de predecir la probabilidad de atrasos de vuelos en el aeropuerto de Santiago de Chile (SCL):
 
-1. EDA
-Análisis exploratorio de datos (EDA) para entender la distribución de los datos y conocer las características relevantes del dataset. Esto incluiría verificar la presencia de valores faltantes, outliers, distribución de las variables, graficas, etc.
+1. Análisis exploratorio de datos (EDA)
+Realizaremos un análisis exploratorio de datos para comprender la distribución de los datos y conocer las características relevantes del conjunto de datos. Esto incluirá verificar la presencia de valores faltantes, outliers, distribución de las variables, gráficos, etc.
 
-2. Generación de columnas adicionales:
-    - Crear una columna "temporada_alta" que identifique si el vuelo se encuentra dentro de los períodos de temporada alta.
-    - Crear una columna "dif_min" que calcule la diferencia en minutos entre la hora programada y la hora de operación del vuelo.
-    - Crear una columna "atraso_15" que identifique si el vuelo tuvo un atraso mayor a 15 minutos.
-    - Crear una columna "periodo_dia" que identifique en qué período del día (mañana, tarde, noche) se programó el vuelo.
+2. Generación de columnas adicionales
+Crearemos las siguientes columnas adicionales:
 
-3. Análisis de tasa de atraso:
-    - Calcular la tasa de atraso para cada destino, aerolínea, mes, día de la semana, temporada, y tipo de vuelo.
-    - Analizar la relación entre las variables y la tasa de atraso para identificar cuáles son las variables que más influyen en la tasa de atraso.
+- "temporada_alta", que identificará si el vuelo se encuentra dentro de los períodos de temporada alta.
+- "dif_min", que calculará la diferencia en minutos entre la hora programada y la hora de operación del vuelo.
+- "atraso_15", que identificará si el vuelo tuvo un atraso mayor a 15 minutos.
+- "periodo_dia", que identificará en qué período del día (mañana, tarde, noche) se programó el vuelo.
 
-4. Modelado:
-    - Seleccionar uno o varios algoritmos de aprendizaje automático para entrenar el modelo.
-    - Generar nuevas variables o combinar variables externas para mejorar la precisión del modelo.
-    - Realizar validación cruzada para evaluar la performance del modelo y seleccionar los hiperparámetros adecuados.
+3. Análisis de la tasa de atrasos
+Calcularemos la tasa de atrasos para cada destino, aerolínea, mes, día de la semana, temporada y tipo de vuelo. Analizaremos la relación entre las variables y la tasa de atrasos para identificar cuáles son las variables que más influyen en la tasa de atrasos.
 
-5. Evaluación del modelo:
-    - Medir la performance del modelo con métricas relevantes, como la exactitud, AUC-ROC, matriz de confusión, entre otras.
-    - Analizar qué variables tienen más impacto en la predicción.
-    - Identificar posibles áreas de mejora, como la inclusión de más variables, la modificación de la arquitectura del modelo, entre otras.
+4. Modelado
+Seleccionaremos uno o varios algoritmos de aprendizaje automático para entrenar el modelo. Generaremos nuevas variables o combinaremos variables externas para mejorar la precisión del modelo. Realizaremos validación cruzada para evaluar la precisión del modelo y seleccionar los hiperparámetros adecuados.
 
-6. Crecion de API y Dockerfile
-    - Creacion de main, models y views para desplegar una API REST que me regrese el valor predicho por el modelo
-    - Testear la API
-    - Crear un contenedor de la API usando Docker 
+5. Evaluación del modelo
+Mediremos la precisión del modelo con métricas relevantes, como la exactitud, AUC-ROC, matriz de confusión, entre otras. Analizaremos qué variables tienen más impacto en la predicción. Identificaremos posibles áreas de mejora, como la inclusión de más variables o la modificación de la arquitectura del modelo.
 
-pd: podemos usar solo git para la creacion de ramas y versionamiento, podemos leer este articulo: [A modern branching strategy](https://martinfowler.com/articles/ship-show-ask.html)
+6. Creación de API y Dockerfile
+Crearemos las siguientes componentes:
+
+- Un archivo principal, modelos y vistas para desplegar una API REST que devuelva el valor predicho por el modelo.
+- Probaremos la API.
+- Crearemos un contenedor para la API utilizando Docker.
+
+PD: Podemos utilizar Git para la creación de ramas y versionamiento. Si necesitas más información sobre cómo utilizar Git, puedes leer este artículo: [A modern branching strategy](https://martinfowler.com/articles/ship-show-ask.html)
 
 ## Installation guide
 
